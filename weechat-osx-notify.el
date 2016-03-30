@@ -24,6 +24,7 @@
 
 ;; Notifications using OSX system notifications
 ;; Required terminal-notifier which can be installed via homebrew with
+;;
 ;;     brew install terminal-notifier
 
 ;;; Code:
@@ -48,6 +49,7 @@
                                     "From weechat-osx-notify"
                                     "\"")))
 
+;; FIXME: somehow the text is not complete in osx notifications
 (defun weechat-osx-notify-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
   (setq sender (if sender (weechat-strip-formatting sender)))
