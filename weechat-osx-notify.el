@@ -35,12 +35,12 @@
 
 (require 'weechat)
 
-(defun djcb-shell-command-maybe (exe &optional paramstr)
+(defun weechat-osx-notify-shell-command-maybe (exe &optional paramstr)
   "run executable EXE with PARAMSTR, or warn if EXE's not available; eg. "
-  " (djcb-shell-command-maybe \"ls\" \"-l -a\")"
+  " (weechat-osx-notify-shell-command-maybe \"ls\" \"-l -a\")"
   (if (executable-find exe)
-    (shell-command (concat exe " " paramstr))
-    (message (concat "'" exe "' not found found; please install"))))
+      (shell-command (concat exe " " paramstr))
+    (user-error "'%s' is not found, please install" exe)))
 
 (defun weechat-osx-notify-wrap-in-quotes (s)
   (concat "'" s "'"))
@@ -58,8 +58,8 @@
 (defun weechat-osx-notify-send-osx-notification (title text)
   (let ((params (weechat-osx-notify-prepare-params title text)))
     (message params)
-    (djcb-shell-command-maybe "terminal-notifier"
-                              params)))
+    (weechat-osx-notify-shell-command-maybe "terminal-notifier"
+                                            params)))
 
 (defun weechat-osx-notify-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
