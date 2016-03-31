@@ -5,6 +5,7 @@
 ;; Author: Andreas Klein <git@kungi.org>
 ;; Keywords: irc chat network weechat
 ;; URL: https://github.com/kungi/weechat-osx-notify.el
+;; Version: 0.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,8 +22,8 @@
 
 ;;; Commentary:
 
-;; Notifications using OSX system notifications
-;; Required terminal-notifier which can be installed via homebrew with
+;; Weechat.el notifications using OSX system notifications
+;; Requires terminal-notifier which can be installed via homebrew
 ;;
 ;;     brew install terminal-notifier
 
