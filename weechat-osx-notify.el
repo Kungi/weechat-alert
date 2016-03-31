@@ -1,4 +1,4 @@
-;;; weechat-osx-notify --- OSX Notifications ;; -*- lexical-binding: t -*-
+;;; weechat-osx-notify.el --- Weechat notifier for OSX using terminal-notifier  -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2016 Andreas Klein
 ;;
