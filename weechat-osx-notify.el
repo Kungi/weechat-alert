@@ -51,7 +51,6 @@
     (djcb-shell-command-maybe "terminal-notifier"
                               cmd)))
 
-;; FIXME somehow the text is not complete in osx notifications
 (defun weechat-osx-notify-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
   (setq sender (if sender (weechat-strip-formatting sender)))
