@@ -38,35 +38,40 @@
     (shell-command (concat exe " " paramstr))
     (message (concat "'" exe "' not found found; please install"))))
 
-(defun send-osx-notification (text)
-  (djcb-shell-command-maybe "terminal-notifier"
-                            (concat "-message "
-                                    "\""
-                                    text
-                                    "\" "
-                                    "-title "
-                                    "\""
-                                    "From weechat-osx-notify"
-                                    "\"")))
+(defun send-osx-notification (title text)
+  (let ((cmd (concat "-message '"
+                     text
+                     "' "
+                     "-title '"
+                     title
+                     "' "
+                     "-group 'weeechat.notification' "
+                     "-sender 'org.gnu.Emacs'")))
+    (message cmd)
+    (djcb-shell-command-maybe "terminal-notifier"
+                              cmd)))
 
-;; FIXME: somehow the text is not complete in osx notifications
+;; FIXME somehow the text is not complete in osx notifications
 (defun weechat-osx-notify-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
   (setq sender (if sender (weechat-strip-formatting sender)))
   (let ((jump-position (point-max-marker)))
     (let ((text (cl-case type
                   (:highlight
-                   (format "%s in %s: %S"
-                           sender
-                           (weechat-buffer-name buffer-ptr)
-                           text))
+                   (send-osx-notification
+                    (format "Highlight from %s"
+                            sender)
+                    (format "in %s: %s"
+                            (weechat-buffer-name buffer-ptr)
+                            text)))
                   (:query
-                   (format "Query from %s: %S"
-                           sender
-                           text))
+                   (send-osx-notification
+                    (format "Query from %s"
+                            sender)
+                    (format "%s"
+                            text)))
                   (:disconnect
-                   "Disconnected from WeeChat"))))
-      (send-osx-notification text))))
+                   (send-osx-notification "Disconnected from WeeChat" ""))))))))
 
 (add-hook 'weechat-notification-handler-functions
           'weechat-osx-notify-handler)
