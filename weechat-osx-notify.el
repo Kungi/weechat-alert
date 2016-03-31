@@ -1,4 +1,4 @@
-;;; weechat-osx-notify --- OSX Notifications ;; -*- lexical-binding: t -*-
+ ;;; weechat-osx-notify --- OSX Notifications ;; -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2016 Andreas Klein
 
@@ -19,7 +19,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 ;;; Commentary:
 
 ;; Notifications using OSX system notifications
@@ -38,18 +37,24 @@
     (shell-command (concat exe " " paramstr))
     (message (concat "'" exe "' not found found; please install"))))
 
-(defun send-osx-notification (title text)
-  (let ((cmd (concat "-message '"
-                     text
-                     "' "
-                     "-title '"
-                     title
-                     "' "
-                     "-group 'weeechat.notification' "
-                     "-sender 'org.gnu.Emacs'")))
-    (message cmd)
+(defun weechat-osx-notify-wrap-in-quotes (s)
+  (concat "'" s "'"))
+
+(defun weechat-osx-notify-prepare-params (title text)
+  (apply #'concat
+         (-interpose " "
+                     (list "-message"
+                           (weechat-osx-notify-wrap-in-quotes text)
+                           "-title"
+                           (weechat-osx-notify-wrap-in-quotes title)
+                           "-group 'weeechat.notification'"
+                           "-sender 'org.gnu.Emacs'"))))
+
+(defun weechat-osx-notify-send-osx-notification (title text)
+  (let ((params (weechat-osx-notify-prepare-params title text)))
+    (message params)
     (djcb-shell-command-maybe "terminal-notifier"
-                              cmd)))
+                              params)))
 
 (defun weechat-osx-notify-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
@@ -57,20 +62,22 @@
   (let ((jump-position (point-max-marker)))
     (let ((text (cl-case type
                   (:highlight
-                   (send-osx-notification
+                   (weechat-osx-notify-send-osx-notification
                     (format "Highlight from %s"
                             sender)
                     (format "in %s: %s"
                             (weechat-buffer-name buffer-ptr)
                             text)))
                   (:query
-                   (send-osx-notification
+                   (weechat-osx-notify-send-osx-notification
                     (format "Query from %s"
                             sender)
                     (format "%s"
                             text)))
                   (:disconnect
-                   (send-osx-notification "Disconnected from WeeChat" ""))))))))
+                   (weechat-osx-notify-send-osx-notification
+                    "Disconnected from WeeChat"
+                    ""))))))))
 
 (add-hook 'weechat-notification-handler-functions
           'weechat-osx-notify-handler)
