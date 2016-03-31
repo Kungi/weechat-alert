@@ -46,14 +46,14 @@
   (concat "'" s "'"))
 
 (defun weechat-osx-notify-prepare-params (title text)
-  (apply #'concat
-         (-interpose " "
-                     (list "-message"
-                           (weechat-osx-notify-wrap-in-quotes text)
-                           "-title"
-                           (weechat-osx-notify-wrap-in-quotes title)
-                           "-group 'weeechat.notification'"
-                           "-sender 'org.gnu.Emacs'"))))
+  (mapconcat #'identity
+             (list "-message"
+                   (weechat-osx-notify-wrap-in-quotes text)
+                   "-title"
+                   (weechat-osx-notify-wrap-in-quotes title)
+                   "-group 'weeechat.notification'"
+                   "-sender 'org.gnu.Emacs'")
+             " "))
 
 (defun weechat-osx-notify-send-osx-notification (title text)
   (let ((params (weechat-osx-notify-prepare-params title text)))
