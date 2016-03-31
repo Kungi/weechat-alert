@@ -4,7 +4,7 @@
 ;;
 ;; Author: Andreas Klein <git@kungi.org>
 ;; Keywords: irc chat network weechat
-;; URL: https://github.com/kungi/weechat-osx-notify.el
+;; URL: https://github.com/kungi/weechat-osx-notify
 ;; Version: 0.0.1
 ;;
 ;; This file is NOT part of GNU Emacs.
