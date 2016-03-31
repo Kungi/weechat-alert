@@ -6,6 +6,7 @@
 ;; Keywords: irc chat network weechat
 ;; URL: https://github.com/kungi/weechat-osx-notify
 ;; Version: 0.0.1
+;; Package-Requires: ((weechat "0.3.1") (cl-lib "0.5"))
 ;;
 ;; This file is NOT part of GNU Emacs.
 ;;
@@ -34,6 +35,7 @@
 ;;; Code:
 
 (require 'weechat)
+(require 'cl-lib)
 
 (defun weechat-osx-notify-shell-command-maybe (exe &optional paramstr)
   "run executable EXE with PARAMSTR, or warn if EXE's not available; eg. "
