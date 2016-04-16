@@ -27,10 +27,9 @@
 ;;
 ;;; Commentary:
 ;;
-;; Weechat.el notifications using OSX system notifications
-;; Requires terminal-notifier which can be installed via homebrew
-;;
-;;     brew install terminal-notifier
+;; Have a look at the alert package documentation
+;; https://github.com/jwiegley/alert. A basic setup for the alerting
+;; system is shown there.
 ;;
 ;;; Code:
 
