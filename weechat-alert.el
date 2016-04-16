@@ -36,28 +36,10 @@
 
 (require 'weechat)
 (require 'cl-lib)
+(require 'alert)
 
-(defun weechat-alert-shell-command-maybe (exe &optional paramstr)
-  "run executable EXE with PARAMSTR, or warn if EXE's not available; eg. "
-  " (weechat-alert-shell-command-maybe \"ls\" \"-l -a\")"
-  (if (executable-find exe)
-      (shell-command (concat exe " " paramstr))
-    (user-error "'%s' is not found, please install" exe)))
-
-(defun weechat-alert-prepare-params (title text)
-  (mapconcat #'identity
-             (list "-message"
-                   (shell-quote-argument text)
-                   "-title"
-                   (shell-quote-argument title)
-                   "-group 'weeechat.notification'"
-                   "-sender 'org.gnu.Emacs'")
-             " "))
-
-(defun weechat-alert-send-osx-notification (title text)
-  (let ((params (weechat-alert-prepare-params title text)))
-    (weechat-alert-shell-command-maybe "terminal-notifier"
-                                            params)))
+(defun weechat-alert-send (title text)
+  (alert text :title title :category 'chat))
 
 (defun weechat-alert-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
@@ -65,20 +47,20 @@
   (let ((jump-position (point-max-marker)))
     (let ((text (cl-case type
                   (:highlight
-                   (weechat-alert-send-osx-notification
+                   (weechat-alert-send
                     (format "Highlight from %s"
                             sender)
                     (format "in %s: %s"
                             (weechat-buffer-name buffer-ptr)
                             text)))
                   (:query
-                   (weechat-alert-send-osx-notification
+                   (weechat-alert-send
                     (format "Query from %s"
                             sender)
                     (format "%s"
                             text)))
                   (:disconnect
-                   (weechat-alert-send-osx-notification
+                   (weechat-alert-send
                     "Disconnected from WeeChat"
                     ""))))))))
 
