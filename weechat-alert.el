@@ -44,16 +44,12 @@
       (shell-command (concat exe " " paramstr))
     (user-error "'%s' is not found, please install" exe)))
 
-(defun weechat-alert-wrap-in-quotes (s)
-  (concat "'" s "'"))
-
-;; FIXME use shell-quote-argument
 (defun weechat-alert-prepare-params (title text)
   (mapconcat #'identity
              (list "-message"
-                   (weechat-alert-wrap-in-quotes text)
+                   (shell-quote-argument text)
                    "-title"
-                   (weechat-alert-wrap-in-quotes title)
+                   (shell-quote-argument title)
                    "-group 'weeechat.notification'"
                    "-sender 'org.gnu.Emacs'")
              " "))
