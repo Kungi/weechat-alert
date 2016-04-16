@@ -47,6 +47,7 @@
 (defun weechat-osx-notify-wrap-in-quotes (s)
   (concat "'" s "'"))
 
+;; FIXME use shell-quote-argument
 (defun weechat-osx-notify-prepare-params (title text)
   (mapconcat #'identity
              (list "-message"
