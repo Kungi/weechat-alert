@@ -6,7 +6,7 @@
 ;; Keywords: irc chat network weechat
 ;; URL: https://github.com/kungi/weechat-alert
 ;; Version: 0.0.1
-;; Package-Requires: ((weechat "0.3.1") (cl-lib "0.5"))
+;; Package-Requires: ((weechat "0.3.1") (cl-lib "0.5") (alert "1.2")
 ;;
 ;; This file is NOT part of GNU Emacs.
 ;;
