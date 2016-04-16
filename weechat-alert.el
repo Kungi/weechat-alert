@@ -56,7 +56,6 @@
 
 (defun weechat-alert-send-osx-notification (title text)
   (let ((params (weechat-alert-prepare-params title text)))
-    (message params)
     (weechat-alert-shell-command-maybe "terminal-notifier"
                                             params)))
 
