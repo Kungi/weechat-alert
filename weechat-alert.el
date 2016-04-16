@@ -54,25 +54,24 @@
 (defun weechat-alert-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
   (setq sender (if sender (weechat-strip-formatting sender)))
-  (let ((jump-position (point-max-marker)))
-    (let ((text (cl-case type
-                  (:highlight
-                   (weechat-alert-send
-                    (format "Highlight from %s"
-                            sender)
-                    (format "in %s: %s"
-                            (weechat-buffer-name buffer-ptr)
-                            text)))
-                  (:query
-                   (weechat-alert-send
-                    (format "Query from %s"
-                            sender)
-                    (format "%s"
-                            text)))
-                  (:disconnect
-                   (weechat-alert-send
-                    "Disconnected from WeeChat"
-                    ""))))))))
+  (cl-case type
+    (:highlight
+     (weechat-alert-send
+      (format "Highlight from %s"
+              sender)
+      (format "in %s: %s"
+              (weechat-buffer-name buffer-ptr)
+              text)))
+    (:query
+     (weechat-alert-send
+      (format "Query from %s"
+              sender)
+      (format "%s"
+              text)))
+    (:disconnect
+     (weechat-alert-send
+      "Disconnected from WeeChat"
+      ""))))
 
 (add-hook 'weechat-notification-handler-functions
           'weechat-alert-handler)
