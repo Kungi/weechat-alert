@@ -37,8 +37,19 @@
 (require 'cl-lib)
 (require 'alert)
 
+(defgroup weechat-alert nil
+  "Weechat alert customization options"
+  :group 'emacs)
+
+(defcustom weechat-alert-category
+  'chat
+  "Symbol of the alert category for all weechat alerts.
+   You can filter alerts based on this value."
+  :type 'symbol
+  :group 'weechat-alert)
+
 (defun weechat-alert-send (title text)
-  (alert text :title title :category 'chat))
+  (alert text :title title :category weechat-alert-category))
 
 (defun weechat-alert-handler (type &optional sender text _date buffer-ptr)
   (setq text (if text (weechat-strip-formatting text)))
